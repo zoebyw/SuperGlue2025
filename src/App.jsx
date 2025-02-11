@@ -9,6 +9,36 @@ const App = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");  // Store error message
+  const[uploadMessage, setUploadMessage] = useState("");
+
+  const fileInputRef = useRef(null);
+  
+
+  // Handle file selection & upload
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+  const handleFileChange = async(event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) {
+      setUploadMessage("Please select a file first.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    try{
+      const response = await fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+    });
+    const result = await response.json();
+    setUploadMessage(result.message);
+  } catch (error) {
+    setUploadMessage("An error occurred while uploading the file.try again later.");
+  }
+};
+
+
 
   // Use useRef to get input element values
   const emailRefLogin = useRef(null);
@@ -170,11 +200,18 @@ const App = () => {
                       <div className="icon-placeholder">+</div>
                       <p>New Canvas</p>
                     </Link>
-                    <button className="action-button">
+                    <button className="action-button" onClick={handleUploadClick}>
                       <div className="icon-placeholder">📂</div>
                       <p>Upload File</p>
                     </button>
+                    <input
+                      type = "file"
+                      ref={fileInputRef}
+                      style= {{display: "none"}}
+                      onChange={handleFileChange}
+                      />
                   </div>
+                  {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
                 </section>
 
                 {/* Recent Files */}
