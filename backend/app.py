@@ -16,9 +16,9 @@ def handle_convert_molecule():
 def handle_get_compounds():
     return get_compounds()
 
-@app.route('/api/compound/<cmpd_id>', methods=['GET'])
-def handle_get_compound(cmpd_id):
-    return get_compound(cmpd_id)
+# @app.route('/api/compound/<cmpd_id>', methods=['GET'])
+# def handle_get_compound(cmpd_id):
+#     return get_compound(cmpd_id)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
