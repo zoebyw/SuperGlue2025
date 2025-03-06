@@ -8,5 +8,5 @@ The goal of this project is to create an interactive tool that will help facilit
 
 Developers: Hongyan Liu, Haoyu He, Zoe Williams, Junyi Ying
 
-Logo:
-!(https://github.com/junyiy2/SuperGlue2025/blob/main/gorilla_glue.jpg?raw=true)
+Logo:  
+![alt text](https://github.com/junyiy2/SuperGlue2025/blob/main/gorilla_glue.jpg?raw=true)
