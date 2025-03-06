@@ -6,4 +6,4 @@ Machine learning is poised to make an enormous impact in the field of pharmaceut
  
 The goal of this project is to create an interactive tool that will help facilitate this collaboration by providing a flexible framework for ML and MedChem teams to share knowledge through chemical annotations, computations, and predictions in a scalable and data-driven manner.
 
-Developers: Hongyan Liu, Haoyu He, Zoe Williams
+Developers: Hongyan Liu, Haoyu He, Zoe Williams, Junyi Ying
