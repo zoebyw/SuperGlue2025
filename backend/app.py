@@ -4,7 +4,21 @@ from molecule_annotate import get_compounds, get_compound
 from file_upload import upload_file
 from molecule_convert import convert_molecule
 from molecule_visualize import MoleculeVisualizer
+from molecule_similarity import similarity_search
+import json
 import os
+import numpy as np
+# add the definition of NumpyEncoder
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
 app = Flask(__name__)
 CORS(app,resources={
     r"/api/*":{"origins":"*"},
@@ -22,6 +36,56 @@ def handle_upload():
 @app.route('/data/<filename>')
 def serve_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
+
+
+@app.route('/api/similarity_search', methods=['POST'])
+def handle_similarity_search():
+    try:
+        # get data from post
+        request_data = request.get_json()
+
+        # get params from request
+        query_smiles = request_data.get('query_smiles')
+        similarity_method = request_data.get('similarity_metric')
+        filename = request_data.get('filename')
+
+        # validate params
+        if not query_smiles:
+            return jsonify({
+                "success": False,
+                "error": "Missing required parameter: query_smiles"
+            }), 400
+
+        if not filename:
+            return jsonify({
+                "success": False,
+                "error": "Missing required parameter: filename"
+            }), 400
+
+        # similarity search
+        results_df = similarity_search(query_smiles, filename, similarity_method)
+        if results_df.empty:
+            return jsonify({
+                "success": False,
+                "error": "No matching compounds found"
+            }), 404
+
+        # convert DataFrame to dict
+        results = results_df.to_dict(orient='records')
+
+        # return results
+        return app.response_class(
+            response=json.dumps({"success": True, "results": results}, cls=NumpyEncoder),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+
 @app.route('/api/convert_molecule', methods=['POST'])
 def handle_convert_molecule():
     return convert_molecule()

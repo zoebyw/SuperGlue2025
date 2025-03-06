@@ -133,27 +133,27 @@ body, html {
 }
 
 .nav-button {
-  background-color: orange; 
+  background-color: orange;
   color: black;
   font-size: 20px;
-  padding: 16px 30px; 
+  padding: 16px 30px;
   border: none;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 8px; 
-  width: 200px; 
+  gap: 8px;
+  width: 200px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .nav-button:disabled {
-  background-color: gray; 
+  background-color: gray;
   cursor: not-allowed;
 }
 
 .nav-button:hover:not(:disabled) {
-  background-color: rgb(255, 140, 0); 
+  background-color: rgb(255, 140, 0);
 }
 
 
@@ -306,8 +306,8 @@ button {
 
 .create-section .icon-placeholder {
   font-size: 40px;
-  background-color: #fff; 
-  color: #007bff; 
+  background-color: #fff;
+  color: #007bff;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -357,7 +357,7 @@ button {
   cursor: pointer;
 }
 .recent-files li:hover {
-  background-color: #ffaa00; 
+  background-color: #ffaa00;
   color: white;
 }
 
@@ -469,7 +469,7 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -478,19 +478,19 @@ button:hover {
 
 /*  */
 .modal {
-  background-color: white; 
-  padding: 20px 30px; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  width: 400px; 
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
   height: 350px;
-  text-align: center; 
+  text-align: center;
   margin-top: 20px;
 }
 
 /* headtitle */
 .modal h2 {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   font-size: 20px;
   color: #333;
 }
@@ -528,7 +528,7 @@ button:hover {
 }
 
 .modal-register h2 {
-  margin-bottom: 35px; 
+  margin-bottom: 35px;
   font-size: 20px;
   color: #333;
 }
@@ -583,4 +583,163 @@ button:hover {
   color: rgb(206, 22, 22);
   font-size: 14px;
   margin-top: 10px;
+}
+/* main.css */
+
+/* 基础样式重置 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 布局容器样式 */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 顶部导航样式 */
+.editor-header {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 64px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+/* 主内容区样式 */
+.editor-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 左侧边栏样式 */
+.sidebar {
+  width: 200px;
+  background-color: #f0f2f5;
+  border-right: 1px solid #e8e8e8;
+  padding: 16px 0;
+  overflow-y: auto;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.sidebar-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-button.active {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border-right: 3px solid #1890ff;
+}
+
+.sidebar-button-icon {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+/* Ketcher iframe 样式 */
+.ketcher-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 输入组样式 */
+.input-group {
+  display: flex;
+  padding: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.input-search {
+  flex: 1;
+  margin-right: 8px;
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  height: 32px;
+}
+
+/* 输出组样式 */
+.output-group {
+  padding: 12px;
+}
+
+.output-group p {
+  margin: 8px 0;
+  word-break: break-all;
+}
+
+/* 属性面板样式 */
+.properties-panel {
+  width: 30%;
+  background-color: #f0f2f5;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.property-card {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.property-card-title {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.property-card-content {
+  padding: 12px 16px;
+}
+
+.property-item {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.property-label {
+  width: 40%;
+  font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .editor-main {
+    flex-direction: column;
+  }
+
+  .properties-panel {
+    width: 100%;
+    height: 300px;
+  }
 }

@@ -1,11 +1,12 @@
 import React, { useState, useRef,useEffect } from "react";
-import { Route, Routes, Link,useNavigate } from "react-router-dom";
+import { Route, Routes, Link,useNavigate, Navigate } from "react-router-dom";
 import MoleculeIndex from "./components/ChemicalEditor";
 import CsvPreview from "./components/StructurePreview";
 import './styles/main.css';
 import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";  
-import Details from "./components/Details";
+// import Details from "./components/Details";
+import ChemicalEditor from "./components/ChemicalEditor.jsx";
 
 
 const App = () => {
@@ -29,43 +30,135 @@ const App = () => {
     const storedFiles = JSON.parse(localStorage.getItem("recentFiles") || "[]");
     setRecentFiles(storedFiles);
   }, []);
+
+  // Add this function to validate CSV headers
+const validateCSVHeaders = async (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const csvText = event.target.result;
+        const firstLine = csvText.split('\n')[0].trim();
+        const headers = firstLine.split(',').map(header => header.trim());
+
+        // Check if headers contain cmpd_id and SMILES (case-insensitive)
+        const hasCmpdId = headers.some(header =>
+          header.toLowerCase() === 'cmpd_id');
+        const hasSmiles = headers.some(header =>
+          header.toLowerCase() === 'smiles');
+
+        if (hasCmpdId && hasSmiles) {
+          resolve(true);
+        } else {
+          resolve({
+            valid: false,
+            missingHeaders: [
+              !hasCmpdId ? 'cmpd_id' : null,
+              !hasSmiles ? 'SMILES' : null
+            ].filter(Boolean)
+          });
+        }
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsText(file);
+  });
+};
+
+
   const handleFileChange = async(event) => {
     const selectedFile = event.target.files[0];
     if (!selectedFile) {
       toast.warn("please select a file first.",{autoClose:3000});
       return;
     }
+  // Check file extension first
+  const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+  if (fileExtension !== 'csv') {
+    toast.error("Upload failed! Only CSV files are supported.", { autoClose: 3000 });
+    return;
+  }
+
+  try {
+    // Validate CSV headers before uploading
+    const validationResult = await validateCSVHeaders(selectedFile);
+
+    if (validationResult !== true) {
+      const missingHeadersMessage = validationResult.missingHeaders.join(' and ');
+      toast.error(`Upload failed! Your file is missing the required header: ${missingHeadersMessage}`, { autoClose: 5000 });
+      return;
+    }
+    // If validation passes, proceed with upload
     const formData = new FormData();
     formData.append("file", selectedFile);
-    try{
-      const response = await fetch("http://localhost:5001/api/upload", {
-        method: "POST",
-        body: formData,
+
+    const response = await fetch("http://localhost:5001/api/upload", {
+      method: "POST",
+      body: formData,
     });
+
     const result = await response.json();
+
     if (response.ok) {
       const fileUrl = result.fileUrl;
-    
+
       let recentFiles = JSON.parse(localStorage.getItem("recentFiles") || "[]");
       recentFiles = recentFiles.filter((file) => file.fileUrl !== fileUrl);
-    
+
       recentFiles.unshift({ fileName: selectedFile.name, fileUrl });
-    
+
       if (recentFiles.length > 5) {
         recentFiles = recentFiles.slice(0, 5);
       }
+
       localStorage.setItem("recentFiles", JSON.stringify(recentFiles));
       setRecentFiles(recentFiles);
-    
+
       toast.success(result.message || "File uploaded successfully!", { autoClose: 3000 });
       navigate("/csv-preview", { state: { fileUrl } });
     } else {
-      toast.error(result.message || "Upload failed! csv file only", { autoClose: 3000 });
+      toast.error(result.message || "Upload failed! Please try again.", { autoClose: 3000 });
     }
   } catch (error) {
-    toast.error("An error occurred while uploading the file.try again later.", { autoClose: 3000 });
+    console.error("File processing error:", error);
+    toast.error("An error occurred while processing the file. Please try again later.", { autoClose: 3000 });
   }
 };
+
+
+//     const formData = new FormData();
+//     formData.append("file", selectedFile);
+//     try{
+//       const response = await fetch("http://localhost:5001/api/upload", {
+//         method: "POST",
+//         body: formData,
+//     });
+//     const result = await response.json();
+//     if (response.ok) {
+//       const fileUrl = result.fileUrl;
+//
+//       let recentFiles = JSON.parse(localStorage.getItem("recentFiles") || "[]");
+//       recentFiles = recentFiles.filter((file) => file.fileUrl !== fileUrl);
+//
+//       recentFiles.unshift({ fileName: selectedFile.name, fileUrl });
+//
+//       if (recentFiles.length > 5) {
+//         recentFiles = recentFiles.slice(0, 5);
+//       }
+//       localStorage.setItem("recentFiles", JSON.stringify(recentFiles));
+//       setRecentFiles(recentFiles);
+//
+//       toast.success(result.message || "File uploaded successfully!", { autoClose: 3000 });
+//       navigate("/csv-preview", { state: { fileUrl } });
+//     } else {
+//       toast.error(result.message || "Upload failed! csv file only", { autoClose: 3000 });
+//     }
+//   } catch (error) {
+//     toast.error("An error occurred while uploading the file.try again later.", { autoClose: 3000 });
+//   }
+// };
 
 
 
@@ -223,10 +316,10 @@ const App = () => {
                 <h1 className="main-title">Create</h1>
                 <section className="create-section">
                   <div className="action-buttons">
-                    <Link to="/editor" className="action-button">
-                      <div className="icon-placeholder">+</div>
-                      <p>New Canvas</p>
-                    </Link>
+                    {/*<Link to="/editor" className="action-button">*/}
+                    {/*  <div className="icon-placeholder">+</div>*/}
+                    {/*  <p>New Canvas</p>*/}
+                    {/*</Link>*/}
                     <button className="action-button" onClick={handleUploadClick}>
                       <div className="icon-placeholder">📂</div>
                       <p>Upload File</p>
@@ -389,8 +482,12 @@ const App = () => {
           }
         />
         <Route path="/editor" element={<MoleculeIndex />} />
+        {/*<Route path="/editor" element={<ChemicalEditor />} />*/}
         <Route path="/csv-preview" element={<CsvPreview />} />
-        <Route path="/details/:id" element={<Details />} />
+        <Route path="/editor/:id" element={<MoleculeIndex />} />
+        <Route path="/editor/similarity/:id" element={<MoleculeIndex initialTab="similarity" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+        {/*<Route path="/details/:id" element={<Details />} />*/}
       </Routes>
   );
 };

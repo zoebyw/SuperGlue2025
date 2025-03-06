@@ -42,7 +42,7 @@ const Details = ({ isLoggedIn, toggleLoginModal, toggleDropdown, showDropdown, h
   const handleNavigation = (newId) => {
     if (newId < 0 || newId >= totalRows) return; // avoid out of bounds
   
-    navigate(`/details/${newId}`, {
+    navigate(`/editor/${newId}`, {
       state: {
         data: location.state.allData[newId], 
         filename, 
