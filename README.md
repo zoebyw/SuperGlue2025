@@ -1,12 +1,49 @@
-## Super-Glue Project Proposal
+# Super Glue
+![SuperGlue Logo](gorilla_glue.jpg)
 
-### Overview
+SuperGlue is a web-based tool for molecular annotation and similarity search. Users can upload chemical compound datasets, visualize molecular structures, and perform similarity searches to analyze relationships between compounds.
 
-Machine learning is poised to make an enormous impact in the field of pharmaceutical chemistry. The rapidly increasing scale, throughput and accuracy of biological assays provides the perfect substrate for machine learning algorithms to make sense of the complex biological mechanisms that underpin disease in a way that humans are incapable. However, the intuition built from decades of drug discovery experience by expert medicinal chemists is a vital source of knowledge that is missing from the models built from these assays. Incorporating expert rules into our modeling strategies not only helps improve the performance of our models, but it is also crucial for building trust across domains and integrating ML into current drug discovery pipelines.
- 
-The goal of this project is to create an interactive tool that will help facilitate this collaboration by providing a flexible framework for ML and MedChem teams to share knowledge through chemical annotations, computations, and predictions in a scalable and data-driven manner.
+## Features
+- Upload and preview **CSV files** with compound data.
+- **Similarity search** for molecular structures using different metrics.
+- **Interactive visualization** of molecular structures.
+- **Molecular editing and annotation** powered by **Ketcher**.
+- Responsive **frontend (React)** and powerful **backend (Python/RDKit)**.
 
-Developers: Hongyan Liu, Haoyu He, Zoe Williams, Junyi Ying
+## Tech Stack  
+### **Frontend (React + Vite)**
+- React (JavaScript)
+- Vite (Fast frontend bundler)
+- Styled Components & CCS Modules
 
-Logo:  
-![alt text](https://github.com/junyiy2/SuperGlue2025/blob/main/gorilla_glue.jpg?raw=true)
+### **Backend (Python + RDKit)**
+- Flask (API)
+- RDKit (Molecular similarity)
+- Pandas (Data processing)
+
+## Installation
+### **1. Clone the Repository**
+### **2. Set Up Backend**
+### **3. Start Backend**
+### **4. Set Up Frontend**
+
+## Usage
+1. **Upload a CSV file** with compound IDs and SMILES.
+2. **Navigate the dataset** using the summary page.
+3. **Click on a compound** to view its molecular structure.
+4. **Use Ketcher** to edit molecular structures and add annotations.
+5. **Perform a similarity search** by entering a SMILES query.
+
+
+## Contributors
+- Haoyu He
+- Hongyan Liu
+- Zoe Williams
+- Junyi Ying
+
+## Acknowledgements
+- Dr. Orion Dollar - Sponsor representative, providing guidance and conveying the company's needs.
+- Dr. David Beck - Capstone professor, offering insights and software engineering advice.
+
+## License
+A license is needing to be added.
