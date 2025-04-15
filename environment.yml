@@ -9,7 +9,6 @@ dependencies:
   - pandas=2.0.3
   - numpy=1.24.3
   - rdkit=2024.3.5
-  - streamlit
   - pip
   - pip:
       - flask
